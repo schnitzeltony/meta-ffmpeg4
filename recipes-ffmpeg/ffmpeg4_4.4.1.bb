@@ -23,19 +23,16 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
                     file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
 
-SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+SRC_URI = "https://www.ffmpeg.org/releases/ffmpeg-${PV}.tar.xz \
            file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
            "
 SRC_URI[sha256sum] = "eadbad9e9ab30b25f5520fbfde99fae4a92a1ae3c0257a8d68569a4651e30e02"
+S = "${WORKDIR}/ffmpeg-${PV}"
 
 # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
 ARM_INSTRUCTION_SET:armv4 = "arm"
 ARM_INSTRUCTION_SET:armv5 = "arm"
 ARM_INSTRUCTION_SET:armv6 = "arm"
-
-# Should be API compatible with libav (which was a fork of ffmpeg)
-# libpostproc was previously packaged from a separate recipe
-PROVIDES = "libav libpostproc"
 
 DEPENDS = "nasm-native"
 
@@ -116,9 +113,12 @@ EXTRA_OECONF = " \
     ${EXTRA_FFCONF} \
     --libdir=${libdir} \
     --shlibdir=${libdir} \
-    --datadir=${datadir}/ffmpeg \
+    --datadir=${datadir}/ffmpeg4 \
     --cpu=${@cpu(d)} \
     --pkg-config=pkg-config \
+    --build-suffix=4 \
+    --progs-suffix=4 \
+    --incdir=${includedir}/ffmpeg4 \
 "
 
 EXTRA_OECONF:append:linux-gnux32 = " --disable-asm"
@@ -149,33 +149,33 @@ do_compile:prepend:class-target() {
         sed -i -e "s,${WORKDIR},,g" ${B}/config.h
 }
 
-PACKAGES =+ "libavcodec \
-             libavdevice \
-             libavfilter \
-             libavformat \
-             libavresample \
-             libavutil \
-             libpostproc \
-             libswresample \
-             libswscale"
+PACKAGES =+ "libavcodec4 \
+             libavdevice4 \
+             libavfilter4 \
+             libavformat4 \
+             libavresample4 \
+             libavutil4 \
+             libpostproc4 \
+             libswresample4 \
+             libswscale4"
 
-FILES:libavcodec = "${libdir}/libavcodec${SOLIBS}"
-FILES:libavdevice = "${libdir}/libavdevice${SOLIBS}"
-FILES:libavfilter = "${libdir}/libavfilter${SOLIBS}"
-FILES:libavformat = "${libdir}/libavformat${SOLIBS}"
-FILES:libavresample = "${libdir}/libavresample${SOLIBS}"
-FILES:libavutil = "${libdir}/libavutil${SOLIBS}"
-FILES:libpostproc = "${libdir}/libpostproc${SOLIBS}"
-FILES:libswresample = "${libdir}/libswresample${SOLIBS}"
-FILES:libswscale = "${libdir}/libswscale${SOLIBS}"
+FILES:libavcodec4 = "${libdir}/libavcodec4${SOLIBS}"
+FILES:libavdevice4 = "${libdir}/libavdevice4${SOLIBS}"
+FILES:libavfilter4 = "${libdir}/libavfilter4${SOLIBS}"
+FILES:libavformat4 = "${libdir}/libavformat4${SOLIBS}"
+FILES:libavresample4 = "${libdir}/libavresample4${SOLIBS}"
+FILES:libavutil4 = "${libdir}/libavutil4${SOLIBS}"
+FILES:libpostproc4 = "${libdir}/libpostproc4${SOLIBS}"
+FILES:libswresample4 = "${libdir}/libswresample4${SOLIBS}"
+FILES:libswscale4 = "${libdir}/libswscale4${SOLIBS}"
 
 # ffmpeg disables PIC on some platforms (e.g. x86-32)
-INSANE_SKIP:${MLPREFIX}libavcodec = "textrel"
-INSANE_SKIP:${MLPREFIX}libavdevice = "textrel"
-INSANE_SKIP:${MLPREFIX}libavfilter = "textrel"
-INSANE_SKIP:${MLPREFIX}libavformat = "textrel"
-INSANE_SKIP:${MLPREFIX}libavutil = "textrel"
-INSANE_SKIP:${MLPREFIX}libavresample = "textrel"
-INSANE_SKIP:${MLPREFIX}libswscale = "textrel"
-INSANE_SKIP:${MLPREFIX}libswresample = "textrel"
-INSANE_SKIP:${MLPREFIX}libpostproc = "textrel"
+INSANE_SKIP:${MLPREFIX}libavcodec4 = "textrel"
+INSANE_SKIP:${MLPREFIX}libavdevice4 = "textrel"
+INSANE_SKIP:${MLPREFIX}libavfilter4 = "textrel"
+INSANE_SKIP:${MLPREFIX}libavformat4 = "textrel"
+INSANE_SKIP:${MLPREFIX}libavutil4 = "textrel"
+INSANE_SKIP:${MLPREFIX}libavresample4 = "textrel"
+INSANE_SKIP:${MLPREFIX}libswscale4 = "textrel"
+INSANE_SKIP:${MLPREFIX}libswresample4 = "textrel"
+INSANE_SKIP:${MLPREFIX}libpostproc4 = "textrel"
