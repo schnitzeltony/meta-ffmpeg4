@@ -19,10 +19,6 @@ Policies
   * Use 4 spaces for indentation always (shell and python code)
   * For splitting of long list values use four-space indentation on successive lines and prefer the closing quote as the first character ([OE-Styleguide](https://www.openembedded.org/wiki/Styleguide) - second example)
   * Pull-requests with patches fixing issues for musl, clang or gold-linker are accepted only if patches have upstream-status "Applied" or "Backport" and contain a link to the upstream patch.
-* Be aware that **this layer changes other layer's defaults by bbappends**. Maintainer disagrees with common 'configure to death practice' and won't waste time explaining dozens of knobs that are mandatory to get working/useful builds. See
-  [appends](appends).
-  Pull requests removing appends for sake of magic 'compliant' scripts  are not accepted.
-
 
 Maintainers
 -----------
