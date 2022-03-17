@@ -9,7 +9,7 @@ see [layer.conf](conf/layer.conf) for dependencies
 
 Contributing
 ------------
-* Submit any patches against the `meta-office` layer by using the GitHub pull-request feature.
+* Submit any patches against the `meta-ffmpeg4` layer by using the GitHub pull-request feature.
 
 
 Policies
